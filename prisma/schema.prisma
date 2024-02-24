@@ -45,55 +45,69 @@ model Game {
 
 
 model Pokemon {
-    id              Int @id @default(autoincrement())
-    name            String
-    species         String
-    nature          String
-    sprite          String
-    level           Int
-    statusEffect    String
-    ability         String
+    id                      String @id @default(cuid())
+    dex_number              Int
+    name                    String
+    species                 String
+    nature                  String
+    sprite                  String
+    level                   Int
+    statusEffect            String
+    ability                 String
 
-    type1           String
-    type2           String?
+    type1                   String
+    type2                   String?
 
     //main stats
-    hp              Int
-    attack          Int
-    defense         Int
-    sp_attack       Int
-    sp_defense      Int
-    speed           Int
+    hp                      Int
+    attack                  Int
+    defense                 Int
+    sp_attack               Int
+    sp_defense              Int
+    speed                   Int
 
     //ivs
-    iv_hp           Int
-    iv_attack       Int
-    iv_defense      Int
-    iv_sp_attack    Int
-    iv_sp_defense   Int
-    iv_speed        Int    
+    iv_hp                   Int
+    iv_attack               Int
+    iv_defense              Int
+    iv_sp_attack            Int
+    iv_sp_defense           Int
+    iv_speed                Int    
 
     //evs
-    ev_hp           Int
-    ev_attack       Int
-    ev_defense      Int
-    ev_sp_attack    Int
-    ev_sp_defense   Int
-    ev_speed        Int
+    ev_hp                   Int
+    ev_attack               Int
+    ev_defense              Int
+    ev_sp_attack            Int
+    ev_sp_defense           Int
+    ev_speed                Int
 
-    moves           Move[]
+    moves                   Move[]
 
-    party           Party @relation(fields: [partyID], references: [id])
-    partyID         String 
+    party                   Party @relation(fields: [partyID], references: [id])
+    partyID                 String 
 
-    box             Box @relation(fields: [boxId], references: [id])
-    boxId           String  
+    box                     Box @relation(fields: [boxId], references: [id])
+    boxId                   String
+
+    team_battle             Battle @relation("teamPokemon", fields: [team_battleID], references: [id])
+    team_battleID           String @unique
+
+    enemy_battle            Battle @relation("enemyPokemon", fields: [enemy_battleID], references: [id])
+    enemy_battleID          String @unique
 
     @@index([species]) 
+    @@unique([dex_number])
 }
 
 model Move {
-    id              Int     @id @default(autoincrement())
-    pokemonID       Int
+    id              String     @id @default(cuid())
+    pokemonID       String
     pokemon         Pokemon @relation(fields: [pokemonID], references: [id])
+}
+
+model Battle {
+    id              String @id @default(cuid())
+    team_pokemon    Pokemon? @relation("teamPokemon", map: "teamPokemon")
+    enemy_pokemon   Pokemon? @relation("enemyPokemon", map: "enemyPokemon")
 }
