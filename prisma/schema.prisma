@@ -18,3 +18,49 @@ model Post {
 
     @@index([name])
 }
+
+
+model Pokemon {
+    id              Int @id @default(autoincrement())
+    name            String
+    species         String
+    nature          String
+    sprite          String
+
+    type1           String
+    type2           String?
+
+    //main stats
+    hp              Int
+    attack          Int
+    defense         Int
+    sp_attack       Int
+    sp_defense      Int
+    speed           Int
+
+    //ivs
+    iv_hp           Int
+    iv_attack       Int
+    iv_defense      Int
+    iv_sp_attack    Int
+    iv_sp_defense   Int
+    iv_speed        Int    
+
+    //evs
+    ev_hp           Int
+    ev_attack       Int
+    ev_defense      Int
+    ev_sp_attack    Int
+    ev_sp_defense   Int
+    ev_speed        Int
+
+    moves           Move[]   
+
+    @@index([species]) 
+}
+
+model Move {
+    id              Int     @id @default(autoincrement())
+    pokemonID       Int
+    pokemon         Pokemon @relation(fields: [pokemonID], references: [id])
+}
