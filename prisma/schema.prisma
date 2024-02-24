@@ -26,6 +26,9 @@ model Pokemon {
     species         String
     nature          String
     sprite          String
+    level           Int
+    statusEffect    String
+    ability         String
 
     type1           String
     type2           String?
