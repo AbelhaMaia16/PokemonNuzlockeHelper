@@ -102,6 +102,10 @@ model Pokemon {
 
 model Move {
     id              String     @id @default(cuid())
+    base_damage     Int
+    type            String
+    category        String
+
     pokemonID       String
     pokemon         Pokemon @relation(fields: [pokemonID], references: [id])
 }
