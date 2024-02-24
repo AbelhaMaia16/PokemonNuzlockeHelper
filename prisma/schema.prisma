@@ -19,6 +19,30 @@ model Post {
     @@index([name])
 }
 
+model Party {
+    id          String  @id @default(cuid())
+    pokemon     Pokemon[]
+
+    game        Game    @relation(fields: [gameID], references: [id])
+    gameID      String  @unique
+}
+
+model Box {
+    id          String  @id @default(cuid())
+    pokemon     Pokemon[]
+
+    game        Game    @relation(fields: [gameID], references: [id])
+    gameID      String  @unique
+}
+
+model Game {
+    id              String @id @default(cuid())
+    name            String
+    game_name       String
+    party           Party?
+    box             Box?
+}
+
 
 model Pokemon {
     id              Int @id @default(autoincrement())
@@ -57,7 +81,13 @@ model Pokemon {
     ev_sp_defense   Int
     ev_speed        Int
 
-    moves           Move[]   
+    moves           Move[]
+
+    party           Party @relation(fields: [partyID], references: [id])
+    partyID         String 
+
+    box             Box @relation(fields: [boxId], references: [id])
+    boxId           String  
 
     @@index([species]) 
 }
